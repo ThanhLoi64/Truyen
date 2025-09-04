@@ -1,20 +1,93 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+📚 Web Đọc Truyện Online
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+Ứng dụng web cho phép người dùng đọc truyện tranh/truyện chữ trực tuyến.
+Frontend được xây dựng bằng ReactJS, backend quản lý API và dữ liệu bằng ASP.NET MVC C#.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+🚀 Công nghệ sử dụng
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+Frontend:
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+⚛️ ReactJS
+
+🎨 TailwindCSS / Bootstrap
+
+🔄 Axios để gọi API
+
+Backend:
+
+💻 ASP.NET MVC (C#)
+
+🗄️ Entity Framework (EF Core) để kết nối database
+
+🔑 Identity để quản lý tài khoản người dùng
+
+Database: SQL Server
+
+⚡ Tính năng chính
+
+👤 Đăng ký / đăng nhập tài khoản
+
+📖 Danh sách truyện phân loại theo thể loại
+
+🔎 Tìm kiếm truyện theo tên, tác giả, tag
+
+⭐ Lưu truyện yêu thích (bookmark)
+
+📂 Quản trị viên có thể:
+
+Thêm / sửa / xóa truyện
+
+Quản lý chương truyện
+
+Theo dõi người dùng
+
+📂 Cấu trúc dự án
+Frontend (ReactJS)
+src/
+ ├── components/    # Các component giao diện (Header, Footer, Card, Reader...)
+ ├── pages/         # Các trang (Home, Login, Register, StoryDetail, Reader...)
+ ├── services/      # Hàm gọi API (Axios)
+ ├── utils/         # Tiện ích (auth, format, ... )
+ └── App.js
+
+Backend (ASP.NET MVC C#)
+Controllers/
+ ├── AccountController.cs   # Đăng nhập, đăng ký
+ ├── StoryController.cs     # API quản lý truyện
+ ├── ChapterController.cs   # API quản lý chương
+Models/
+ ├── User.cs
+ ├── Story.cs
+ ├── Chapter.cs
+Views/
+ ├── Shared/ 
+ ├── Story/
+ └── Account/
+
+🛠️ Cài đặt & chạy dự án
+Backend (C# MVC)
+# Chạy migration database
+Update-Database
+
+# Chạy server
+dotnet run
+
+
+API sẽ chạy ở:
+👉 http://localhost:5000/api
+
+Frontend (ReactJS)
+npm install
+npm start
+
+
+App chạy ở:
+👉 http://localhost:3000
+
+🔗 Learn More
+
+ReactJS Documentation
+
+ASP.NET MVC
+
+Entity Framework Core
