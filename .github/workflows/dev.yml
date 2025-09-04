@@ -1,0 +1,76 @@
+name: DEV - Build and deploy FE
+
+on:
+  push:
+    branches:
+      - 'develop'
+env:
+  NEXT_PUBLIC_API_URL: ${{ vars.DEV_API_URL }}
+  TAG: 'develop'
+
+jobs:
+  paths-filter:
+    name: Check project to build
+    runs-on: ubuntu-latest
+    outputs:
+      WEB: ${{ steps.paths-filter.outputs.WEB }}
+      MOBILE: ${{ steps.paths-filter.outputs.MOBILE }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3
+      id: paths-filter
+      with:
+        filters: |
+          WEB:
+            - 'web/**'
+          MOBILE:
+            - 'mobile/**'
+  build-web:
+    name: Build WEB
+    runs-on: ubuntu-latest
+    needs: paths-filter
+    if: needs.paths-filter.outputs.WEB == 'true'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Log in to GitLab Container Registry
+      run: echo ${{ secrets.ACR_PASSWORD }} | docker login api.repoflow.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
+    - name: Build and push Docker image
+      run: |
+        docker build --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+                    --build-arg ENV_VAR=production -t api.repoflow.io/bsonvn-3350/truyen/web:$TAG ./web -f ./web/Dockerfile
+        docker push api.repoflow.io/bsonvn-3350/truyen/web:$TAG
+  build-mobile:
+    name: Build MOBILE
+    runs-on: ubuntu-latest
+    needs: paths-filter
+    if: needs.paths-filter.outputs.MOBILE == 'true'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Log in to GitLab Container Registry
+      run: echo ${{ secrets.ACR_PASSWORD }} | docker login api.repoflow.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
+    - name: Build and push Docker image
+      run: |
+        docker build --build-arg NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY -t api.repoflow.io/bsonvn-3350/truyen/mobile:$TAG ./mobile -f ./mobile/Dockerfile
+        docker push api.repoflow.io/bsonvn-3350/truyen/mobile:$TAG
+  check-run:
+    name: Check run
+    runs-on: ubuntu-latest
+    needs: [build-web, build-mobile]
+    if: always() && !failure() && !cancelled()
+    steps:
+    - name: echo conditions
+      run: |
+        echo "build-web=${{ needs.build-web.result }}"
+        echo "build-mobile=${{ needs.build-mobile.result }}"
+  deploy:
+    name: Deploy BE to server
+    runs-on: ubuntu-latest
+    needs: [ check-run]
+    if: always() && ((needs.build-be.result == 'success' || needs.build-fe.result == 'success' ) && !failure() && !cancelled())
+    steps:
+    - name: Call Deploy Webhook
+      run: |
+        curl -X POST "https://deploy.bs.io.vn/api/deploy/compose/tPN0bMLCR6JKdQWEKEfmh1"
+    

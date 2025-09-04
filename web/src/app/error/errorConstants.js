@@ -1,0 +1,11 @@
+export const PASSWORD_FORMAT_ERROR = 'Mật khẩu từ 8-12 kí tự, bao gồm 1 chữ hoa, 1 chữ thường, 1 chữ số và 1 kí tự đặc biệt';
+export const EMPTY_FIELD_ERROR = 'Vui lòng điền đầy đủ thông tin';
+export const INVALID_EMAIL_ERROR = 'Email không hợp lệ';
+export const PASSWORD_CASE_ERROR = 'Mật khẩu phải chứa ít nhất một chữ in hoa';
+export const PASSWORD_SPECIAL_CHAR_ERROR = 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt';
+export const PASS_NOMATCH = 'Mật khẩu không khớp';
+export const EMAIL_USER_INUSE = 'Email đã được sử dụng';
+export const USER_INUSE = 'Người dùng đã tồn tại';
+export const REGISTERED_SUCCES = 'Đăng ký thành công';
+export const INVALID_CREDENTIALS = 'Thông tin không hợp lệ';
+export const USERNAME_SPECIAL_CHAR_ERROR = 'Tên đăng nhập không được chứa ký tự đặc biệt';

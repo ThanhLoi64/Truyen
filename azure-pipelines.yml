@@ -1,0 +1,105 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+trigger:
+- master1
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: CheckChanges
+    displayName: 'Check changes'
+    steps:
+      - bash: |
+          PATH_FILTER1="mobile/"
+          PATH_FILTER2="web/"
+          CHANGED_FILES=$(git diff HEAD HEAD~ --name-only)
+          MATCH_COUNT1=0
+          MATCH_COUNT2=0
+
+          echo "Checking for file changes..."
+          for FILE in $CHANGED_FILES
+          do
+            echo "${FILE}"
+            if [[ $FILE == *$PATH_FILTER1* ]]; then
+              echo "MATCH:  ${FILE} changed"
+              MATCH_COUNT1=$(($MATCH_COUNT1+1))
+            fi
+            if [[ $FILE == *$PATH_FILTER2* ]]; then
+              echo "MATCH:  ${FILE} changed"
+              MATCH_COUNT2=$(($MATCH_COUNT2+1))
+            fi
+          done
+
+          echo "$MATCH_COUNT1 match(es) for filter '$PATH_FILTER1' found."
+          echo "$MATCH_COUNT2 match(es) for filter '$PATH_FILTER2' found."
+          if [[ $MATCH_COUNT1 -gt 0 ]]; then
+            echo "##vso[task.setvariable variable=SOURCE_CODE_CHANGED1;isOutput=true]true"
+          else
+            echo "##vso[task.setvariable variable=SOURCE_CODE_CHANGED1;isOutput=true]false"
+          fi
+          if [[ $MATCH_COUNT2 -gt 0 ]]; then
+            echo "##vso[task.setvariable variable=SOURCE_CODE_CHANGED2;isOutput=true]true"
+          else
+            echo "##vso[task.setvariable variable=SOURCE_CODE_CHANGED2;isOutput=true]false"
+          fi
+        name: check_changes
+        displayName: 'Check changed files'
+  - job: Build_Mobile
+    displayName: Build and deploy mobile
+    dependsOn: CheckChanges # <- Important: Mark previous job as dependency        
+    condition: eq(dependencies.CheckChanges.outputs['check_changes.SOURCE_CODE_CHANGED1'], 'true')
+    steps:
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: gitlab
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: buildAndPush
+        dockerfile: '$(Build.SourcesDirectory)/mobile/Dockerfile'
+        repository: bsio1/truyen-fe
+        tags: |
+          latest
+  - job: Build_FE
+    displayName: Build and deploy FE
+    dependsOn: CheckChanges # <- Important: Mark previous job as dependency        
+    condition: eq(dependencies.CheckChanges.outputs['check_changes.SOURCE_CODE_CHANGED2'], 'true')
+    steps:
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: gitlab
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: buildAndPush
+        dockerfile: '$(Build.SourcesDirectory)/web/Dockerfile'
+        repository: bsio1/bson-spa-fe
+        tags: |
+          latest
+  - job: Deploy
+    dependsOn:
+     - Build_Mobile
+     - Build_FE
+    condition: |
+     or
+     (
+       eq(dependencies.Build_Mobile.result, 'Succeeded'),
+       eq(dependencies.Build_FE.result, 'Succeeded')
+     )
+    steps:
+    - script: |
+        curl -X POST  -k $(WEBHOOK-APP)
+      displayName: 'Post to webhook'
+      

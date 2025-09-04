@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #F8F7F4;
+  --bgSoft: #ffffff;
+  --text: black;
+  --textW: white;
+  --textSoft: #b7bac1;
+  --button: #E2C696;
+  --buttonSoft: #FFD971;
+  --buttonGreen: #49CC90;
+  --buttonRed: #F93E3E;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Roboto Condensed", Tahoma, sans-serif;
+  margin-top: 64px;
+}
+
+a {
+  color: #2c2c2c;
+  text-decoration: none;
+  font-family: "Roboto Condensed", Tahoma, sans-serif;
+}
+h1,h2,h3,h4 {
+  color: inherit;
+  text-decoration: none;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.MuiDataGrid-footerContainer.MuiDataGrid-withBorderColor.css-wop1k0-MuiDataGrid-footerContainer {
+  display: none;
+}
+
+.css-tgsonj {
+  display: none;
+}
+
+.MuiDataGrid-bottomContainer, .MuiDataGrid-filler {
+  display: none;
+}
+
+.dashboard_content__CpG0Y {
+  padding-top: 0 !important;
+}
+
+.dashboard_container__sdq2z {
+  margin-top: 0 !important;
+}
+
+.dashboard_menu__OGt4H, .dashboard_menu__320Z_ {
+  min-height: 0 !important;
+}
+
+.dashboard_container__tobnj {
+  margin-top: 0 !important;
+}
+
+.MuiDataGrid-bottomContainer {
+  display: none;
+}
+
+.MuiDataGrid-cell {
+  display: flex;
+  align-items: center;
+  font-family: "Roboto Condensed", Tahoma, sans-serif;
+}
+
+.dashboard_menu__OGt4H, .dashboard_menu__320Z_ {
+  padding: 0 !important;
+  font-family: "Roboto Condensed", Tahoma, sans-serif;
+}
+
+.css-17vbkzs-MuiFormControl-root-MuiTextField-root {
+  margin-top: 0;
+  font-family: "Roboto Condensed", Tahoma, sans-serif;
+}
+
+.css-1iledgx-MuiFormControl-root {
+  margin-top: 0;
+  font-family: "Roboto Condensed", Tahoma, sans-serif;
+}
+
+.css-qk4brm-MuiButtonBase-root-MuiButton-root {
+  margin-top: 0;
+  font-family: "Roboto Condensed", Tahoma, sans-serif;
+}

@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  bsion-truyen-app: # Name of the frontend service
+      container_name: bsion-truyen-app-fe
+      image: registry.gitlab.com/bsio1/truyen-fe:latest
+      ports:
+         - 19000:19000 # Specify port-forwarding
+         - 19001:19001
+         - 19002:19002
+         - 8880:8880
+      environment:
+         - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0 
+         - REACT_NATIVE_PACKAGER_HOSTNAME=192.168.1.7
+         - PUBLIC_API_URL=http://192.168.1.7:8082/api
+         - EXPO_TOKEN=Tg1MuMCvzfD2HtNpRQTB7ne05JsXHoMFdOjrD7AE
+  bsion-truyen-web-fe:
+    container_name: bsion-truyen-web-fe
+    image: registry.gitlab.com/bsio1/bson-spa-fe:latest
+    environment:
+      - NEXT_PUBLIC_API_URL=http://192.168.1.7:8082/api
+    ports:
+      - "3000:3000"

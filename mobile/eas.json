@@ -1,0 +1,29 @@
+{
+  "cli": {
+    "version": ">= 10.2.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "PUBLIC_API_URL": "https://truyen.bs.io.vn/api"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "PUBLIC_API_URL": "https://truyen.bs.io.vn/api"
+      }
+    },
+    "production": {
+      "distribution": "internal",
+      "env": {
+        "PUBLIC_API_URL": "https://truyen.bs.io.vn/api"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

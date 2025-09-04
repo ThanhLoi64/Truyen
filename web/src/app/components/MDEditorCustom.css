@@ -1,0 +1,32 @@
+button[data-name="strikethrough"] {
+    display: none;
+  }
+
+  button[data-name="link"]{
+    display: none;
+  }
+  button[data-name="code"]{
+    display: none;
+  }
+  button[data-name="codeBlock"]{
+    display: none;
+  }
+  button[data-name="help"]{
+    display: none;
+  }
+  button[data-name="checked-list"]{
+    display: none;
+  }
+  button[data-name="image"]{
+    display: none;
+  }
+  button[data-name="table"]{
+    display: none;
+  }
+  button[data-name="comment"]{
+    display: none;
+  }
+
+  .my-md-font {
+    font-family: 'Arial', sans-serif; 
+}
